@@ -10,6 +10,8 @@ import SwiftUI
 struct PlantsView: View {
     
     @State private var showSetReminderSheet = false
+    @State private var reminders: [PlantReminderList] = []
+
     
     var body: some View {
         ZStack {
@@ -17,6 +19,7 @@ struct PlantsView: View {
                 .ignoresSafeArea(edges: .all)
             
             VStack (alignment: .leading){
+                
               Text ("My Plants 🌱")
                     .font(.system(size: 34))
                     .bold()
@@ -32,18 +35,28 @@ struct PlantsView: View {
             }.padding()
             
             VStack (spacing:37){
-                Image(.plant)
                 
-                Text("Start your plant journey! ")
-                    .font(.system(size: 25, weight: .semibold))
-                    .foregroundStyle(.white)
-                
-                Text("Now all your plants will be in one place and we will help you take care of them :)🪴")
-                    .font(.system(size: 16, weight: .regular))
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color(hex: "#9F9F91"))
-                    .padding(.bottom, 107)
-           
+                if reminders.isEmpty {
+                   Image(.plant)
+                                    
+                    Text("Start your plant journey!")
+                      .font(.system(size: 25, weight: .semibold))
+                      .foregroundStyle(.white)
+                                    
+                    Text("Now all your plants will be in one place and we will help you take care of them :)🪴")
+                       .font(.system(size: 16, weight: .regular))
+                       .multilineTextAlignment(.center)
+                       .foregroundStyle(Color(hex: "#9F9F91"))
+                       .padding(.bottom, 107)
+                       .padding(.horizontal,25)
+                       
+                  } else {
+                                    
+                      TodayReminderView(reminders: $reminders)
+                          .padding(.top, 90)
+                          
+                        }
+                    
                 VStack{
                     Button(action: {
                         showSetReminderSheet.toggle()
@@ -56,13 +69,47 @@ struct PlantsView: View {
                             .frame(width: 280, height: 44)
                             .background(Color(hex: "#19B183").opacity(45))
                             .cornerRadius(60)
-                    }.sheet(isPresented: $showSetReminderSheet){
                         
-                        SetReminder()
-                            .padding(.top, 24)
+                    }.sheet(isPresented: $showSetReminderSheet) {
+                        NavigationStack {
+                            VStack {
+                                SetReminderView(reminders: $reminders)
+
+                            }
+//                            .toolbar {
+//                                ToolbarItem(placement: .topBarLeading) {
+//                                    Button {
+//                                        //showSetReminderSheet = true
+//                                        let newReminder = PlantReminderList(
+//                                            name: plantName,
+//                                            room: roomSelection,
+//                                            light: lightSelection,
+//                                            WateringDays: wateringDaysSelection,
+//                                            water: waterSelection
+//                                        )
+//                                        reminders.append(newReminder)
+//                                    } label: {
+//                                        Image(systemName: "multiply")
+//                                    }
+//                                }// cancele button
+//                                ToolbarItem(placement: .topBarTrailing) {
+//                                    Button {
+//                                        showSetReminderSheet = false
+//                                    } label: {
+//                                        Image(systemName: "checkmark")
+//                                            .frame(width: 44, height: 44)
+////                                                    .foregroundColor(.white)
+////                                                    .background(Color.green)
+////                                                    .clipShape(Circle())
+//                                    }
+//                                }// Done button
+//                            }// Toolbar End
+                        }
                     }
+
                 }
-            }.padding(.horizontal, 40)
+            }.frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
         }
     }
 }
