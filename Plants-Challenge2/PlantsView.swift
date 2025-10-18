@@ -57,7 +57,9 @@ struct PlantsView: View {
                             .background(Color(hex: "#19B183").opacity(45))
                             .cornerRadius(60)
                     }.sheet(isPresented: $showSetReminderSheet){
+                        
                         SetReminder()
+                            .padding(.top, 24)
                     }
                 }
             }.padding(.horizontal, 40)
