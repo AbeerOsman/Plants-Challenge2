@@ -26,10 +26,11 @@ enum Lights: String, CaseIterable, Identifiable {
 struct PlantReminderList: Identifiable {
     var id = UUID()
     var name: String
-    let room: String
-    let light: String
-    let WateringDays:String
-    let water:String
+    var room: String
+    var light: String
+    var WateringDays:String
+    var water:String
+    var ischecked: Bool = false
     
 }
 
@@ -37,6 +38,9 @@ struct PlantReminderList: Identifiable {
 import SwiftUI
 
 struct SetReminderView: View {
+    
+    @Binding var showSetReminderSheet: Bool
+    @State private var showingAlert = false
     
     let wateringDays : [String] = [
         "Every day",
@@ -61,18 +65,10 @@ struct SetReminderView: View {
     @State private var wateringDaysSelection: String = "Every day"
     @State private var waterSelection: String = "20-50 ml"
     
+    @State private var countReminders = 0.0
+    
     @Binding var reminders: [PlantReminderList]
-    
-//    var reminder: [String] {
-//        [
-//            plantName,
-//            roomSelection,
-//            lightSelection,
-//            wateringDaysSelection,
-//            waterSelection
-//        ]
-//    }
-    
+
     var body: some View {
         NavigationStack {
             ZStack{
@@ -216,6 +212,8 @@ struct SetReminderView: View {
                 .padding(.horizontal, 24)
                 
                 .toolbar {
+                    
+                    //Add button
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             let newReminder = PlantReminderList(
@@ -226,12 +224,37 @@ struct SetReminderView: View {
                                 water: waterSelection
                             )
                             reminders.append(newReminder)
+                            countReminders+=1
                             print(reminders)
+                            showSetReminderSheet = false
                         } label: {
                             Image(systemName: "checkmark")
                                 
                         }
-                    }
+                    }//End of the add button
+                    
+                    
+                    //Canselation button
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            showingAlert = true
+                        } label: {
+                            Image(systemName: "multiply")
+                                
+                        }
+                        
+                        .alert("Confirm Exit", isPresented: $showingAlert) {
+                            Button("Yes", role: .destructive) {
+                                showSetReminderSheet = false
+                            }
+                            Button("Cancel", role: .cancel) {
+                                showSetReminderSheet = true
+                            }
+                        } message: {
+                            Text("Are you sure you want to close this?")
+                        }
+
+                    }//End of the Cancelation button
                 }
                 
                 
@@ -240,7 +263,7 @@ struct SetReminderView: View {
         }// NavigationStack 
     }
 }
-
 #Preview {
-    SetReminderView(reminders: .constant([]))
+    @Previewable @State var showSetReminderSheet = false
+    return SetReminderView(showSetReminderSheet: $showSetReminderSheet, reminders: .constant([]))
 }

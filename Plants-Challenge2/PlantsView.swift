@@ -11,8 +11,8 @@ struct PlantsView: View {
     
     @State private var showSetReminderSheet = false
     @State private var reminders: [PlantReminderList] = []
+    @Binding var countReminders : Double
 
-    
     var body: some View {
         ZStack {
             Color.black
@@ -50,63 +50,61 @@ struct PlantsView: View {
                        .padding(.bottom, 107)
                        .padding(.horizontal,25)
                        
-                  } else {
-                                    
-                      TodayReminderView(reminders: $reminders)
-                          .padding(.top, 90)
-                          
-                        }
+                } else {
+                   
+                    TodayReminderView(reminders: $reminders, countReminders: $countReminders)
+                            .padding(.top, 90)
+                        
                     
-                VStack{
-                    Button(action: {
-                        showSetReminderSheet.toggle()
-                    }) {
-                        
-                        Text("Set Plant Reminder")
-                            .foregroundColor(.white)
-                            .font(.system(size: 17, weight: .medium))
-                            .padding()
-                            .frame(width: 280, height: 44)
-                            .background(Color(hex: "#19B183").opacity(45))
-                            .cornerRadius(60)
-                        
-                    }.sheet(isPresented: $showSetReminderSheet) {
-                        NavigationStack {
-                            VStack {
-                                SetReminderView(reminders: $reminders)
-
+                }
+                if reminders.isEmpty {
+                    VStack{
+                        Button(action: {
+                            showSetReminderSheet.toggle()
+                        }) {
+                            
+                            Text("Set Plant Reminder")
+                                .foregroundColor(.white)
+                                .font(.system(size: 17, weight: .medium))
+                                .padding()
+                                .frame(width: 280, height: 44)
+                                .background(Color(hex: "#19B183").opacity(45))
+                                .cornerRadius(60)
+                            
+                        }.sheet(isPresented: $showSetReminderSheet) {
+                            NavigationStack {
+                                VStack {
+                                    SetReminderView(showSetReminderSheet: $showSetReminderSheet, reminders: $reminders)
+                                }
                             }
-//                            .toolbar {
-//                                ToolbarItem(placement: .topBarLeading) {
-//                                    Button {
-//                                        //showSetReminderSheet = true
-//                                        let newReminder = PlantReminderList(
-//                                            name: plantName,
-//                                            room: roomSelection,
-//                                            light: lightSelection,
-//                                            WateringDays: wateringDaysSelection,
-//                                            water: waterSelection
-//                                        )
-//                                        reminders.append(newReminder)
-//                                    } label: {
-//                                        Image(systemName: "multiply")
-//                                    }
-//                                }// cancele button
-//                                ToolbarItem(placement: .topBarTrailing) {
-//                                    Button {
-//                                        showSetReminderSheet = false
-//                                    } label: {
-//                                        Image(systemName: "checkmark")
-//                                            .frame(width: 44, height: 44)
-////                                                    .foregroundColor(.white)
-////                                                    .background(Color.green)
-////                                                    .clipShape(Circle())
-//                                    }
-//                                }// Done button
-//                            }// Toolbar End
                         }
-                    }
-
+                    }// End of the add reminder button
+                    
+                }//end of the if statment of the add button
+                else{
+                    VStack(alignment: .trailing){
+                        Button(action: {
+                            showSetReminderSheet.toggle()
+                        }) {
+                            
+                            Image(systemName: "plus")
+                                .foregroundColor(.white)
+                                .font(.system(size: 17, weight: .medium))
+                                .padding()
+                                .frame(width: 48, height: 48)
+                                .background(Color(hex: "#19B183").opacity(45))
+                                .cornerRadius(60)
+                            
+                        }.sheet(isPresented: $showSetReminderSheet) {
+                            NavigationStack {
+                                VStack {
+                                    SetReminderView(showSetReminderSheet: $showSetReminderSheet, reminders: $reminders)
+                                }
+                            }
+                        }
+                    }// End of the add reminder  circle button
+                    .frame(maxWidth: .infinity, alignment: .bottomTrailing)
+                    .padding(.horizontal)
                 }
             }.frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
@@ -115,7 +113,7 @@ struct PlantsView: View {
 }
 
 #Preview {
-    PlantsView()
+    PlantsView(countReminders: .constant(0))
 }
 
 
@@ -152,3 +150,4 @@ extension Color {
         )
     }
 }
+

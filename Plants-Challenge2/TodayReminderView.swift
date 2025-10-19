@@ -9,8 +9,9 @@ import SwiftUI
 
 
 struct TodayReminderView: View {
-    @State private var tracker: Double = 0
     @Binding var reminders: [PlantReminderList]
+    @Binding var countReminders : Double
+    @State private var countOfCheck : Double = 0.0
     
     var body: some View {
         ZStack {
@@ -18,55 +19,47 @@ struct TodayReminderView: View {
                 .ignoresSafeArea(edges: .all)
             
             VStack{
-                
-//                VStack (alignment: .leading){
-//                  Text ("My Plants 🌱")
-//                        .font(.system(size: 34))
-//                        .bold()
-//                        .foregroundStyle(.white)
-//                        .padding(.bottom, 5) // space between text and divider
-//                            
-//                            Divider()
-//                                .frame(height: 2)
-//                                .background(Color(hex: "39393B").opacity(0.6))
-//                    
-//                }.padding() // End of the title of the page (Vstack)
-                
                 VStack{
                     Text("Your plants are waiting for a sip 💦")
                         .foregroundStyle(.white)
                         .font(.system(size: 18, weight: .regular))
-                    Slider(value: $tracker)
+                    
+                    //ProgressView(value: countOfCheck, total: countReminders)
+//                    Slider(value: $countReminders, in: 0...10)
                         .padding()
                         .tint(Color(hex: "#19B183"))
                     //To Hide the visible thumb
-    //                    .onAppear {
-    //                        UISlider.appearance().setThumbImage(UIImage(), for: .normal)
-    //                    }
+                    //                    .onAppear {
+                    //                        UISlider.appearance().setThumbImage(UIImage(), for: .normal)
+                    //                    }
                 }// Vstack of tracker
                 .padding(.top, 35)
-                    
                 
                 
-                VStack(alignment: .leading, spacing: 13){
+                ScrollView(.vertical){
+                VStack(alignment: .leading, spacing: 4){
                     
-                    ForEach(reminders, id: \.name) { reminder in
+                    ForEach($reminders) { $reminder in
                         //Start of the first reminder
                         HStack (spacing: 24){
-                            Image(systemName: "circle")
-                                .foregroundStyle(.gray)
+                            Image(systemName: $reminder.wrappedValue.ischecked ? "checkmark.circle.fill" :"circle")
+                                .foregroundStyle($reminder.wrappedValue.ischecked ? Color(hex: "28E0A8") : .gray)
                                 .font(.system(size: 23))
+                                .onTapGesture {
+                                    $reminder.ischecked.wrappedValue.toggle()
+                                    countOfCheck += 1.0
+                                }
                             
                             VStack(alignment: .leading, spacing: 8){
                                 HStack{
                                     Image(systemName: "location")
                                         .font(Font.system(size: 15))
                                         .foregroundStyle(.gray)
-                                    Text(reminder.room)
+                                    Text("in \($reminder.wrappedValue.room)")
                                         .foregroundStyle(.gray)
                                         .font(.system(size: 15))
                                 }
-                                Text(reminder.name)
+                                Text($reminder.wrappedValue.name)
                                     .foregroundStyle(.white)
                                     .font(.system(size: 28))
                                 
@@ -76,7 +69,7 @@ struct TodayReminderView: View {
                                         Image(systemName: "sun.max")
                                             .foregroundStyle(Color(hex: "CCC785"))
                                             .font(.system(size: 14))
-                                        Text(reminder.light)
+                                        Text($reminder.wrappedValue.light)
                                             .foregroundStyle(Color(hex: "CCC785"))
                                             .font(.system(size: 14))
                                     }.background(
@@ -89,7 +82,7 @@ struct TodayReminderView: View {
                                         Image(systemName: "drop")
                                             .foregroundStyle(Color(hex: "CAF3FB"))
                                             .font(.system(size: 14, weight: .medium))
-                                        Text(reminder.water)
+                                        Text($reminder.wrappedValue.water)
                                             .foregroundStyle(Color(hex: "CAF3FB"))
                                             .font(.system(size: 14, weight: .medium))
                                     }.background(
@@ -103,6 +96,7 @@ struct TodayReminderView: View {
                         Divider()
                             .frame(height: 2)
                             .background(Color(hex: "39393B").opacity(0.6))
+                            .padding(.top, 10)
                         
                         Spacer()
                         
@@ -111,7 +105,9 @@ struct TodayReminderView: View {
                     }// End of list
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                }
+                }// End of the Vstack of the all reminders
+                
+            }//end of ScrollView
                 
 
             }// Vstack of whoal screen
@@ -122,6 +118,8 @@ struct TodayReminderView: View {
     }
 
 
+
+
 #Preview {
-    TodayReminderView(reminders: .constant([]))
+    TodayReminderView(reminders: .constant([]), countReminders: .constant(0))
 }

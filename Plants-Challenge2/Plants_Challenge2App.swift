@@ -11,7 +11,7 @@ import SwiftUI
 struct Plants_Challenge2App: App {
     var body: some Scene {
         WindowGroup {
-            PlantsView()
+            PlantsView(countReminders: .constant(0))
         }
     }
 }
