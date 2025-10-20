@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PlantsView: View {
-    
     @State private var showSetReminderSheet = false
     @State private var reminders: [PlantReminderList] = []
     @Binding var countReminders : Double
@@ -69,6 +68,7 @@ struct PlantsView: View {
                                 .padding()
                                 .frame(width: 280, height: 44)
                                 .background(Color(hex: "#19B183").opacity(45))
+                                .glassEffect(.clear)
                                 .cornerRadius(60)
                             
                         }.sheet(isPresented: $showSetReminderSheet) {
@@ -95,7 +95,8 @@ struct PlantsView: View {
                                 .background(Color(hex: "#19B183").opacity(45))
                                 .cornerRadius(60)
                             
-                        }.sheet(isPresented: $showSetReminderSheet) {
+                        }.glassEffect()
+                        .sheet(isPresented: $showSetReminderSheet) {
                             NavigationStack {
                                 VStack {
                                     SetReminderView(showSetReminderSheet: $showSetReminderSheet, reminders: $reminders)

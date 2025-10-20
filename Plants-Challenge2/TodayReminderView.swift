@@ -23,31 +23,36 @@ struct TodayReminderView: View {
                     Text("Your plants are waiting for a sip 💦")
                         .foregroundStyle(.white)
                         .font(.system(size: 18, weight: .regular))
+                        .padding(.bottom, 18)
                     
-                    //ProgressView(value: countOfCheck, total: countReminders)
-//                    Slider(value: $countReminders, in: 0...10)
-                        .padding()
-                        .tint(Color(hex: "#19B183"))
-                    //To Hide the visible thumb
-                    //                    .onAppear {
-                    //                        UISlider.appearance().setThumbImage(UIImage(), for: .normal)
-                    //                    }
+                    ProgressView(value: countOfCheck, total: 10)
+                        .progressViewStyle(LinearProgressViewStyle(tint: Color(hex: "19B183")))
+                        .scaleEffect(x: 1, y: 2, anchor: .center)
+                        .frame(width: 361)
                 }// Vstack of tracker
                 .padding(.top, 35)
+                .padding(.bottom, 60)
                 
                 
-                ScrollView(.vertical){
-                VStack(alignment: .leading, spacing: 4){
+            ScrollView(.vertical){
+                VStack(alignment:.leading){
                     
                     ForEach($reminders) { $reminder in
                         //Start of the first reminder
-                        HStack (spacing: 24){
+                        HStack{
                             Image(systemName: $reminder.wrappedValue.ischecked ? "checkmark.circle.fill" :"circle")
                                 .foregroundStyle($reminder.wrappedValue.ischecked ? Color(hex: "28E0A8") : .gray)
                                 .font(.system(size: 23))
                                 .onTapGesture {
+                                    
                                     $reminder.ischecked.wrappedValue.toggle()
-                                    countOfCheck += 1.0
+
+                                    if reminder.ischecked {
+                                        countOfCheck += 1.0
+                                    } else {
+                                        countOfCheck -= 1.0
+                                    }
+
                                 }
                             
                             VStack(alignment: .leading, spacing: 8){
@@ -97,9 +102,6 @@ struct TodayReminderView: View {
                             .frame(height: 2)
                             .background(Color(hex: "39393B").opacity(0.6))
                             .padding(.top, 10)
-                        
-                        Spacer()
-                        
                         // Here next reminder placed
                         
                     }// End of list

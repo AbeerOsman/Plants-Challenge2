@@ -86,7 +86,7 @@ struct SetReminderView: View {
                     
                     Spacer()
                     
-                    VStack {
+                    VStack (spacing: 45){
                         
                         //Name of Plant
                         HStack{
@@ -94,20 +94,19 @@ struct SetReminderView: View {
                                 .foregroundStyle(.white)
                                 .font(.system(size: 18))
                             HStack{
-                                Rectangle()
-                                    .frame(width: 2, height: 21)
-                                    .foregroundStyle(Color(hex: "29DFA8").opacity(99))
-                                    .cornerRadius(20)
                                 TextField("Pothos", text: $plantName)
-                                    .tint(Color.gray)
-                                    .font(Font.system(size: 17))
-                                    .foregroundStyle(Color(hex: "29DFA8"))
-                                
+                                    .font(Font.system(size: 18))
+                                    .foregroundStyle(Color(hex: "29DFA8").opacity(100))
+                                    .tint(Color(hex: "29DFA8"))
                             }
-                        }.background(Color(hex: "2C2C2E")
-                            .frame(width: 388, height: 59).cornerRadius(30))
+                        }.padding(.horizontal)
+                        .background(Color(hex: "2C2C2E")
+                            .frame(width: 365, height: 59).cornerRadius(30))
+                        
                         .padding()
                         .padding(.top, 40)
+                        
+                        
                         
                         
                         
@@ -131,9 +130,9 @@ struct SetReminderView: View {
                                 }label: {
                                 }.tint(Color.gray)
                                 
-                            }//End of Room
+                            }.padding(.horizontal)//End of Room
                             Divider()
-                                .frame(width: 368, height: 1)
+                                .frame(width: 345, height: 1)
                                 .background(Color(hex: "414144"))
                             
                             HStack{
@@ -144,6 +143,7 @@ struct SetReminderView: View {
                                     .foregroundStyle(.white)
                                     .font(.system(size: 18))
                                 Spacer()
+                                    
                                 
                                 //Picker
                                 Picker(selection: $lightSelection){
@@ -152,11 +152,17 @@ struct SetReminderView: View {
                                     }
                                 }label: {
                                 }.tint(Color.gray)
-                            }//End of Light
+                            }.padding(.horizontal)//End of -Light
                             
-                        }.background(Color(hex: "2C2C2E")
-                            .frame(width: 388, height: 95).cornerRadius(30))
-                        .padding()
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 30)
+                                .fill(Color(hex: "2C2C2E"))
+                                .frame(width: 370, height: 110)
+                        ).padding(.vertical,4.5)
+                            .padding(.horizontal)
+                        
+                        
                         
                         //water of Plant
                         VStack{
@@ -176,9 +182,9 @@ struct SetReminderView: View {
                                     }
                                 }label: {
                                 }.tint(Color.gray)
-                            }//End of Watering day
+                            }.padding(.horizontal)//End of Watering day
                             Divider()
-                                .frame(width: 368, height: 1)
+                                .frame(width: 345, height: 1)
                                 .background(Color(hex: "414144"))
                             
                             HStack{
@@ -197,11 +203,15 @@ struct SetReminderView: View {
                                     }
                                 }label: {
                                 }.tint(Color.gray)
-                            }//End of Water
+                            }.padding(.horizontal)//End of Water
                             
-                        }.background(Color(hex: "2C2C2E")
-                            .frame(width: 388, height: 95).cornerRadius(30))
-                        .padding()
+                        }.background(
+                            RoundedRectangle(cornerRadius: 30)
+                                .fill(Color(hex: "2C2C2E"))
+                                .frame(width: 370, height: 110)
+                                
+                        ).padding(.vertical,4.5)
+                            .padding(.horizontal)
                         
                     }.padding(.bottom, 408)
                         .padding(.top, 40)
@@ -229,6 +239,13 @@ struct SetReminderView: View {
                             showSetReminderSheet = false
                         } label: {
                             Image(systemName: "checkmark")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(.white)
+                                .frame(width: 40, height: 40)
+                                .background(Color(hex: "#19B183"))
+                                .clipShape(Circle())
+                                .scaledToFill()
+                                
                                 
                         }
                     }//End of the add button
@@ -240,7 +257,7 @@ struct SetReminderView: View {
                             showingAlert = true
                         } label: {
                             Image(systemName: "multiply")
-                                
+                                  
                         }
                         
                         .alert("Confirm Exit", isPresented: $showingAlert) {
