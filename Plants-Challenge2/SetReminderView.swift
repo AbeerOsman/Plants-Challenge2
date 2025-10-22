@@ -82,7 +82,7 @@ struct SetReminderView: View {
                         .foregroundStyle(.white)
                         .font(.system(size: 20))
                         .bold()
-                        .padding(.top, 45)
+                        .padding(.top, 80)
                     
                     Spacer()
                     
@@ -239,15 +239,17 @@ struct SetReminderView: View {
                             showSetReminderSheet = false
                         } label: {
                             Image(systemName: "checkmark")
-                                .font(.system(size: 18, weight: .bold))
+//                                .font(.system(size: 18, weight: .bold))
                                 .foregroundStyle(.white)
-                                .frame(width: 40, height: 40)
-                                .background(Color(hex: "#19B183"))
-                                .clipShape(Circle())
-                                .scaledToFill()
+                                .frame(width: 30, height: 40)
+//                                .background(Color(hex: "#19B183"))
+//                                .clipShape(Circle())
+//                                .scaledToFill()
                                 
                                 
-                        }
+                        }.buttonStyle(.borderedProminent)
+                            .tint(Color(hex: "#19B183"))
+                        
                     }//End of the add button
                     
                     

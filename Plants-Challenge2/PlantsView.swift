@@ -48,10 +48,10 @@ struct PlantsView: View {
                        .foregroundStyle(Color(hex: "#9F9F91"))
                        .padding(.bottom, 107)
                        .padding(.horizontal,25)
-                       
+                        
                 } else {
                    
-                    TodayReminderView(reminders: $reminders, countReminders: $countReminders)
+                    TodayReminderView(reminders: $reminders, countReminders: $countReminders, showSetReminderSheet: $showSetReminderSheet)
                             .padding(.top, 90)
                         
                     
@@ -67,11 +67,11 @@ struct PlantsView: View {
                                 .font(.system(size: 17, weight: .medium))
                                 .padding()
                                 .frame(width: 280, height: 44)
-                                .background(Color(hex: "#19B183").opacity(45))
-                                .glassEffect(.clear)
-                                .cornerRadius(60)
+                                
                             
-                        }.sheet(isPresented: $showSetReminderSheet) {
+                        }.buttonStyle(.glassProminent)
+                            .tint(Color(hex: "#19B183").opacity(45))
+                        .sheet(isPresented: $showSetReminderSheet) {
                             NavigationStack {
                                 VStack {
                                     SetReminderView(showSetReminderSheet: $showSetReminderSheet, reminders: $reminders)
@@ -85,8 +85,8 @@ struct PlantsView: View {
                     VStack(alignment: .trailing){
                         Button(action: {
                             showSetReminderSheet.toggle()
+                                
                         }) {
-                            
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                                 .font(.system(size: 17, weight: .medium))
@@ -94,6 +94,7 @@ struct PlantsView: View {
                                 .frame(width: 48, height: 48)
                                 .background(Color(hex: "#19B183").opacity(45))
                                 .cornerRadius(60)
+                                //.buttonStyle(.glassProminent)
                             
                         }.glassEffect()
                         .sheet(isPresented: $showSetReminderSheet) {
