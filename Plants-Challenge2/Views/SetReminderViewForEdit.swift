@@ -17,17 +17,10 @@ struct SetReminderViewForEdit: View {
             ZStack {
                 Color(hex: "1C1C1E")
                     .ignoresSafeArea()
-
+               
                 VStack {
-                    Text("Edit Reminder")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 20))
-                        .bold()
-                        .padding(.top, 200)
-
-                    Spacer()
-
-                    VStack(spacing: 45) {
+                    ScrollView{
+                        VStack(spacing: 45) {
                         // Plant Name
                         plantNameSection
                         
@@ -36,7 +29,7 @@ struct SetReminderViewForEdit: View {
                         
                         // Watering info
                         wateringSection
-                    
+                        
                         // Delete button
                         Button {
                             viewModel.deleteReminder()
@@ -48,9 +41,8 @@ struct SetReminderViewForEdit: View {
                                 .padding()
                         }
                         .background(Color(hex: "2C2C2E").frame(width: 370, height: 52).cornerRadius(30))
-                    }
-                    .padding(.top, 40)
-                    .padding(.bottom, 408)
+                    }//End of Vstack
+                }//scrollview
                 }
                 .padding(.horizontal, 24)
                 .onAppear {
@@ -63,8 +55,15 @@ struct SetReminderViewForEdit: View {
                     )
                 }
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                            Text("Edit Reminder")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     toolbarItems
                 }
+                .toolbarBackground(Color(hex: "1C1C1E"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
             }
         }
     }// View

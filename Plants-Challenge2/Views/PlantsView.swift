@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PlantsView: View {
     @StateObject private var viewModel = PlantsViewModel()
+    //var pageisload = NotificationViewModel ()
     @Binding var countReminders: Double
 
     var body: some View {

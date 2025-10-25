@@ -29,6 +29,6 @@ class SetReminderViewModel: ObservableObject {
         roomSelection = Rooms.Bedroom.rawValue
         lightSelection = Lights.FullSun.rawValue
         wateringDaysSelection = .everyDay
-        waterSelection = .small
+        waterSelection = .verysmall
     }
 }

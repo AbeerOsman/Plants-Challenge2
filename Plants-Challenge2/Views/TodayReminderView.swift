@@ -104,11 +104,11 @@ struct TodayReminderView: View {
                                             .background(Color(hex: "18181D").frame(width: 89, height: 23).cornerRadius(8))
                                         }
                                     }// box contain (room, name, amount of water, and lght)
+                                    Divider()
+                                        .frame(height: 1)
+                                        .background(Color(hex: "39393B").opacity(0.6))
+                                        .padding(.top, 10)
                                 }
-                                Divider()
-                                    .frame(height: 1)
-                                    .background(Color(hex: "39393B").opacity(0.6))
-                                    .padding(.top, 10)
                             }//  this is the end of all reminders
                             .listRowBackground(Color.black)
                             .frame(maxWidth: .infinity, alignment: .leading)

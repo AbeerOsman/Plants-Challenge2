@@ -49,4 +49,5 @@ struct PlantReminderList: Identifiable, Equatable {
     var wateringDays: WateringDays
     var water: WaterAmount
     var ischecked: Bool = false
+    var nextDate: Date? = nil
 }

@@ -2,11 +2,11 @@ import SwiftUI
 
 struct SetReminderView: View {
     
+    @StateObject private var viewModel = SetReminderViewModel()
+    
+    @State private var showingAlert = false
     @Binding var showSetReminderSheet: Bool
     @Binding var reminders: [PlantReminderList]
-    
-    @StateObject private var viewModel = SetReminderViewModel()
-    @State private var showingAlert = false
     
     var body: some View {
         NavigationStack {
@@ -14,35 +14,37 @@ struct SetReminderView: View {
                 Color(hex: "1C1C1E").ignoresSafeArea()
                 
                 VStack {
-                    Text("Set Reminder")
-                        .foregroundStyle(.white)
-                        .font(.system(size: 20))
-                        .bold()
-                        .padding(.top, 80)
                     
-                    Spacer()
-                    
-                    VStack(spacing: 45) {
-                        // Plant Name
-                        plantNameSection
+                    ScrollView{
                         
-                        // Room & Light
-                        roomAndLightSection
+                        VStack(spacing: 45) {
+                            // Plant Name
+                            plantNameSection
+                            // Room & Light
+                            roomAndLightSection
+                            // Watering info
+                            wateringSection
+                        }
                         
-                        // Watering info
-                        wateringSection
-                        
-                    }
-                    .padding(.bottom, 408)
-                    .padding(.top, 40)
-                    
+                    }//ScrollView
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
                 .padding(.horizontal, 24)
+                
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                            Text("Set Reminder")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     toolbarItems
                 }
+                .toolbarBackground(Color(hex: "1C1C1E"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
             }
-        }
+
+        }//End of the navigationStack
+        
     }
     
     private var plantNameSection: some View {
@@ -130,8 +132,7 @@ struct SetReminderView: View {
             //Add button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    let newReminder = viewModel.createReminder()
-                    reminders.append(newReminder)
+                    reminders.append(viewModel.createReminder())
                     showSetReminderSheet = false
                 } label: {
                     Image(systemName: "checkmark")
