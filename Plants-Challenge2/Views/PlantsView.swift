@@ -2,18 +2,19 @@ import SwiftUI
 
 struct PlantsView: View {
     @StateObject private var viewModel = PlantsViewModel()
-    //var pageisload = NotificationViewModel ()
     @Binding var countReminders: Double
+    @Environment(\.colorScheme) var colorScheme
+
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea(edges: .all)
 
+            
             VStack(alignment: .leading) {
                 Text("My Plants 🌱")
                     .font(.system(size: 34))
                     .bold()
-                    .foregroundStyle(.white)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                     .padding(.bottom, 5)
 
                 Divider()
@@ -41,15 +42,16 @@ struct PlantsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
         }
+        
     }
+    
 //Empty View
     private var emptyState: some View {
         VStack (spacing:37){
             Image(.plant)
             Text("Start your plant journey!")
                 .font(.system(size: 25, weight: .semibold))
-                .foregroundStyle(.white)
-
+                .foregroundColor(colorScheme == .dark ? .white : .black)
             Text("Now all your plants will be in one place and we will help you take care of them :)🪴")
                 .font(.system(size: 16, weight: .regular))
                 .multilineTextAlignment(.center)

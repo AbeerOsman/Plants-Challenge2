@@ -26,6 +26,7 @@ struct Plants_Challenge2App: App {
     var body: some Scene {
         WindowGroup {
             PlantsView(countReminders: .constant(0))
+                //.preferredColorScheme(.dark) 
                 .onAppear {
                     NotificationsManager.shared.requestAuthorization { granted in
                         if granted {
@@ -36,6 +37,7 @@ struct Plants_Challenge2App: App {
                     }
                 }
         }
+        
     }
 }
 

@@ -33,12 +33,6 @@ class EditReminderViewModel: ObservableObject {
         }
     }
 
-//    func deleteReminder() {
-//        if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
-//            reminders.remove(at: index)
-//        }
-//    }
-    
     func deleteReminder() {
         let id = reminder.id.uuidString
         if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
@@ -62,21 +56,6 @@ class EditReminderViewModel: ObservableObject {
         water.wrappedValue = reminder.water
     }
 
-//    func saveEdits(
-//        plantName: String,
-//        room: Rooms,
-//        light: Lights,
-//        days: WateringDays,
-//        water: WaterAmount
-//    ) {
-//        reminder.name = plantName
-//        reminder.room = room.rawValue
-//        reminder.light = light.rawValue
-//        reminder.wateringDays = days
-//        reminder.water = water
-//        saveChanges()
-//    }
-    
     func saveEdits(plantName: String, room: Rooms, light: Lights, days: WateringDays, water: WaterAmount) {
         reminder.name = plantName
         reminder.room = room.rawValue
@@ -86,7 +65,7 @@ class EditReminderViewModel: ObservableObject {
 
         // recompute nextDue
         reminder.nextDate = RemindersDateHelper.nextDueDate(for: reminder, from: Date())
-        saveChanges() // existing method that writes into bound reminders array
+        saveChanges()
         // schedule
         NotificationsManager.shared.scheduleReminderNotification(reminder: reminder, date: reminder.nextDate!)
     }

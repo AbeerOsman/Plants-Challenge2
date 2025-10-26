@@ -5,6 +5,7 @@ struct TodayReminderView: View {
     @Binding var countReminders: Double
     @Binding var showSetReminderSheet: Bool
     @State private var editingIndex: Int? = nil
+    @Environment(\.colorScheme) var colorScheme
     
     // Computed properties
     private var countOfCheck: Double {
@@ -17,8 +18,13 @@ struct TodayReminderView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea(edges: .all)
-
+            if colorScheme == .dark {
+                            Color(hex: "000000")
+                                .ignoresSafeArea()
+                        } else {
+                            Color(hex: "FFFFFF")
+                                .ignoresSafeArea()
+                        }
             VStack {
                 if allDone {
                     VStack {
@@ -29,7 +35,7 @@ struct TodayReminderView: View {
                             .padding(.bottom, 28)
                         VStack(spacing: 14) {
                             Text("All Done! 🎉")
-                                .foregroundColor(.white)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .font(.system(size: 25, weight: .semibold))
                             Text("All Reminders Completed")
                                 .foregroundColor(Color(hex: "9F9F91"))
@@ -38,18 +44,19 @@ struct TodayReminderView: View {
                     }
                 } else {
                     VStack {
-                        Text("Your plants are waiting for a sip 💦")
-                            .foregroundStyle(.white)
+                        Text(countOfCheck == 0 ? "Your plants are waiting for a sip 💦" : "\(Int(countOfCheck)) of your plants feel loved today ✨" )
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                             .font(.system(size: 18, weight: .regular))
                             .padding(.bottom, 18)
 
                         ProgressView(value: countOfCheck, total: Double(reminders.count))
                             .progressViewStyle(LinearProgressViewStyle(tint: Color(hex: "19B183")))
                             .scaleEffect(x: 1, y: 2, anchor: .center)
-                            .frame(width: 361)
+                            .frame(width: 361, height: 8)
+                            .cornerRadius(4)
                     }
                     .padding(.top, 35)
-                    .padding(.bottom, 60)
+                    .padding(.bottom, 20)
 
                     // List of reminders
                     List {
@@ -75,7 +82,7 @@ struct TodayReminderView: View {
                                         }
 
                                         Text(reminder.name)
-                                            .foregroundStyle(.white)
+                                            .foregroundColor(colorScheme == .dark ? .white : .black)
                                             .font(.system(size: 28))
                                             .contentShape(Rectangle())
                                             .onTapGesture {
@@ -83,25 +90,30 @@ struct TodayReminderView: View {
                                             }
 
                                         HStack(spacing: 13) {
-                                            HStack {
+                                            
+                                            HStack (spacing: 4){
                                                 Image(systemName: "sun.max")
-                                                    .foregroundStyle(Color(hex: "CCC785"))
-                                                    .font(.system(size: 14))
                                                 Text(reminder.light)
-                                                    .foregroundStyle(Color(hex: "CCC785"))
-                                                    .font(.system(size: 14))
                                             }
-                                            .background(Color(hex: "18181D").frame(width: 89, height: 23).cornerRadius(8))
-
-                                            HStack {
+                                            .foregroundStyle(Color(hex: "CCC785"))
+                                            .font(.caption)
+                                            .padding(.horizontal,8)
+                                            .padding(.vertical,4)
+                                            .background(Color(hex: "18181D"))
+                                            .cornerRadius(10)
+                                            
+                                            HStack (spacing: 4){
                                                 Image(systemName: "drop")
-                                                    .foregroundStyle(Color(hex: "CAF3FB"))
-                                                    .font(.system(size: 14, weight: .medium))
                                                 Text(reminder.water.rawValue)
-                                                    .foregroundStyle(Color(hex: "CAF3FB"))
-                                                    .font(.system(size: 14, weight: .medium))
                                             }
-                                            .background(Color(hex: "18181D").frame(width: 89, height: 23).cornerRadius(8))
+                                            .foregroundStyle(Color(hex: "CAF3FB"))
+                                            .font(.caption)
+                                            .padding(.horizontal,8)
+                                            .padding(.vertical,4)
+                                            .background(Color(hex: "18181D"))
+                                            .cornerRadius(10)
+                                                
+                                            
                                         }
                                     }// box contain (room, name, amount of water, and lght)
                                     Divider()
@@ -110,7 +122,7 @@ struct TodayReminderView: View {
                                         .padding(.top, 10)
                                 }
                             }//  this is the end of all reminders
-                            .listRowBackground(Color.black)
+                            .listRowBackground(colorScheme == .dark ? Color.black : Color.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -123,7 +135,7 @@ struct TodayReminderView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
-                    .background(Color.black)
+                    .background(colorScheme == .dark ? Color.black : Color.white)
                     .listStyle(PlainListStyle())
                 }
             }

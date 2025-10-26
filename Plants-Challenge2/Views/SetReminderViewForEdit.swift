@@ -1,9 +1,14 @@
 import SwiftUI
 
 struct SetReminderViewForEdit: View {
+    @StateObject private var viewModel: EditReminderViewModel
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var reminders: [PlantReminderList]
     @Binding var showEditSheet: Bool
-    @StateObject private var viewModel: EditReminderViewModel
+    @State private var showingNameAlert = false
+    
 
 
     init(showEditSheet: Binding<Bool>, reminder: Binding<PlantReminderList>, reminders: Binding<[PlantReminderList]>) {
@@ -15,11 +20,16 @@ struct SetReminderViewForEdit: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: "1C1C1E")
-                    .ignoresSafeArea()
-               
-                VStack {
-                    ScrollView{
+                //change the color of background
+                if colorScheme == .dark {
+                                Color(hex: "1C1C1E")
+                                    .ignoresSafeArea()
+                            } else {
+                                Color(hex: "9F9F91")
+                                    .ignoresSafeArea()
+                            }
+                //main inputs of set reminder
+               ScrollView{
                         VStack(spacing: 45) {
                         // Plant Name
                         plantNameSection
@@ -40,11 +50,19 @@ struct SetReminderViewForEdit: View {
                                 .font(.system(size: 17, weight: .medium))
                                 .padding()
                         }
-                        .background(Color(hex: "2C2C2E").frame(width: 370, height: 52).cornerRadius(30))
+                        .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .fill(colorScheme == .dark ? Color(hex: "2C2C2E") : Color(hex: "E9E9E9"))
+                                    .frame(width: 370, height: 52)
+                                
+                        )
                     }//End of Vstack
                 }//scrollview
-                }
+                    .padding(.horizontal, 24)
+                
                 .padding(.horizontal, 24)
+                
+                //to load data befor the user open the edit sheet
                 .onAppear {
                     viewModel.loadReminderData(
                         plantName: $viewModel.plantName,
@@ -62,107 +80,141 @@ struct SetReminderViewForEdit: View {
                         }
                     toolbarItems
                 }
-                .toolbarBackground(Color(hex: "1C1C1E"), for: .navigationBar)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(colorScheme == .dark ? Color(hex: "1C1C1E") : Color(hex: "9F9F91") , for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-            }
-        }
-    }// View
-    
+            }//End of the Zstack
+
+        }//End of the navigationStack
+        
+    }//End of the body view
+  
+//Inputs of the set reminder
+        
+        //plant Name Input section
     private var plantNameSection: some View {
         HStack {
             Text("Plant Name")
-                .foregroundStyle(.white)
+                .foregroundStyle(colorScheme == .dark ? .white : .black)
                 .font(.system(size: 18))
             TextField("Pothos", text: $viewModel.plantName)
                 .font(.system(size: 18))
                 .foregroundStyle(Color(hex: "29DFA8"))
                 .tint(Color(hex: "29DFA8"))
+                .submitLabel(.done)
         }
         .padding(.horizontal)
-        .background(Color(hex: "2C2C2E").frame(width: 365, height: 59).cornerRadius(30))
+        .background(
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(colorScheme == .dark ? Color(hex: "2C2C2E") : Color(hex: "E9E9E9"))
+                    .frame(width: 365, height: 59)
+                
+        )
         .padding()
         .padding(.top, 40)
     }
     
+    //plant location & light Inputs section
     private var roomAndLightSection: some View {
         VStack {
             HStack {
-                Image(systemName: "location").foregroundStyle(.white)
-                Text("Room").foregroundStyle(.white)
+                Image(systemName: "location").foregroundStyle(colorScheme == .dark ? .white : .black)
+                Text("Room").foregroundStyle(colorScheme == .dark ? .white : .black)
                 Spacer()
                 Picker("", selection: $viewModel.roomSelection) {
                     ForEach(Rooms.allCases) { room in
                         Text(room.rawValue).tag(room)
                     }
-                }.tint(.gray)
+                }.tint(colorScheme == .dark ? .gray : .black)
             }.padding(.horizontal)
             
             Divider().frame(width: 345).background(Color(hex: "414144"))
             
             HStack {
-                Image(systemName: "sun.max").foregroundStyle(.white)
-                Text("Light").foregroundStyle(.white)
+                Image(systemName: "sun.max").foregroundStyle(colorScheme == .dark ? .white : .black)
+                Text("Light").foregroundStyle(colorScheme == .dark ? .white : .black)
                 Spacer()
                 Picker("", selection: $viewModel.lightSelection) {
                     ForEach(Lights.allCases) { light in
                         Text(light.rawValue).tag(light)
                     }
-                }.tint(.gray)
+                }.tint(colorScheme == .dark ? .gray : .black)
             }.padding(.horizontal)
         }
-        .background(RoundedRectangle(cornerRadius: 30).fill(Color(hex: "2C2C2E")).frame(width: 370, height: 110))
+        .background(
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(colorScheme == .dark ? Color(hex: "2C2C2E") : Color(hex: "E9E9E9"))
+                    .frame(width: 370, height: 110)
+                
+        )
         .padding(.vertical, 4.5)
         .padding(.horizontal)
     }
     
+    //plant Water day and amount Inputs section
     private var wateringSection: some View {
         VStack {
             HStack {
-                Image(systemName: "drop").foregroundStyle(.white)
-                Text("Watering Days").foregroundStyle(.white)
+                Image(systemName: "drop").foregroundStyle(colorScheme == .dark ? .white : .black)
+                Text("Watering Days").foregroundStyle(colorScheme == .dark ? .white : .black)
                 Spacer()
                 Picker("", selection: $viewModel.wateringDaysSelection) {
                     ForEach(WateringDays.allCases, id: \.self) { day in
                         Text(day.rawValue).tag(day)
                     }
                 }
-                .tint(.gray)
+                .tint(colorScheme == .dark ? .gray : .black)
             }.padding(.horizontal)
             
             Divider().frame(width: 345).background(Color(hex: "414144"))
             
             HStack {
-                Image(systemName: "drop").foregroundStyle(.white)
-                Text("Water").foregroundStyle(.white)
+                Image(systemName: "drop").foregroundStyle(colorScheme == .dark ? .white : .black)
+                Text("Water").foregroundStyle(colorScheme == .dark ? .white : .black)
                 Spacer()
                 Picker("", selection: $viewModel.waterSelection) {
                     ForEach(WaterAmount.allCases) { amount in
                         Text(amount.rawValue).tag(amount)
                     }
                 }
-                .tint(.gray)
+                .tint(colorScheme == .dark ? .gray : .black)
             }.padding(.horizontal)
         }
-        .background(RoundedRectangle(cornerRadius: 30).fill(Color(hex: "2C2C2E")).frame(width: 370, height: 110))
+        .background(
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(colorScheme == .dark ? Color(hex: "2C2C2E") : Color(hex: "E9E9E9"))
+                    .frame(width: 370, height: 110)
+                
+        )
         .padding(.vertical, 4.5)
         .padding(.horizontal)
     }
-    
+    // Add & Cancel buttons section
     private var toolbarItems: some ToolbarContent {
         Group {
             // Save Button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.saveEdits(
-                        plantName: viewModel.plantName,
-                        room: viewModel.roomSelection,
-                        light: viewModel.lightSelection,
-                        days: viewModel.wateringDaysSelection,
-                        water: viewModel.waterSelection
-                    )
-                    showEditSheet = false
+                    
+                    if viewModel.plantName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
+                        showingNameAlert = true
+                    }else{
+                        viewModel.saveEdits(
+                            plantName: viewModel.plantName,
+                            room: viewModel.roomSelection,
+                            light: viewModel.lightSelection,
+                            days: viewModel.wateringDaysSelection,
+                            water: viewModel.waterSelection
+                        )
+                        showEditSheet = false
+                    }
                 } label: {
                     Image(systemName: "checkmark").foregroundStyle(.white)
+                }
+                .alert("Plant Name is Required", isPresented: $showingNameAlert) {
+                    Button("OK", role: .cancel){
+                        showEditSheet = true
+                    }
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color(hex: "#19B183"))

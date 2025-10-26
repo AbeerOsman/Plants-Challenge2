@@ -23,6 +23,8 @@ class PlantsViewModel: ObservableObject {
     var countReminders: Double {
         Double(reminders.count)
     }
+    
+    
 
     func toggleReminderSheet() {
         showSetReminderSheet.toggle()
@@ -39,7 +41,7 @@ class PlantsViewModel: ObservableObject {
 
     func addReminder(_ reminder: PlantReminderList) {
         var r = reminder
-        // set nextDue using helper
+        // set nextDate using helper
         r.nextDate = RemindersDateHelper.nextDueDate(for: r, from: Date())
         reminders.append(r)
         // schedule notification for that reminder

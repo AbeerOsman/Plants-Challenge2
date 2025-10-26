@@ -86,7 +86,7 @@ final class NotificationsManager: NSObject {
             if let next = r.nextDate {
                 scheduleReminderNotification(reminder: r, date: next)
             } else {
-                // compute a reasonable nextDue if missing - schedule in X days at 9 AM
+                // compute a reasonable nextDue if missing - schedule in X days at 7 AM
                 let next = RemindersDateHelper.nextDueDate(for: r, from: Date())
                 scheduleReminderNotification(reminder: r, date: next)
             }
