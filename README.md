@@ -3,7 +3,7 @@
 
 Plant Care reminders 🌿 
 
-Planto is a SwiftUI-based iOS app that helps plant lovers keep their plants healthy and thriving. The app allows users to set, edit, and manage watering reminders for different plants, track their progress, and receive local notifications when it’s time to care for a plant.
+Planto is a SwiftUI-based (iOS 26+) app that helps plant lovers keep their plants healthy and thriving. The app allows users to set, edit, and manage watering reminders for different plants, track their progress, and receive local notifications when it’s time to care for a plant.
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +30,9 @@ A user-friendly interface designed for simplicity and clarity.
 
 * Data persistence
 Your reminders are stored and updated reliably using SwiftUI’s data bindings and view models.
+
+* Suport liquid glass effect
+The app suport the new version of (iOS 26+) liquid glass effect for all Buttons, Pickers, and Notification widget
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -62,8 +65,9 @@ Xcode & Swift 5
 # Getting Started
 
 1- Clone the repository:
+https://github.com/AbeerOsman/Plants-Challenge2.git
 
 1- Open in Xcode:
-select Clone from remote repo
+Select Clone from remote repository 
 
 3- Build & run on an iPhone simulator or device that suport (iOS 26.0).
