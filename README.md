@@ -1,4 +1,4 @@
-# Planto
+# Planto 🌿
 <img width="150" height="150" alt="image" src="https://github.com/user-attachments/assets/fa20ac28-8346-44fe-94d0-6a5804fafdf8" />
 
 Plant Care reminders 🌿 
@@ -39,6 +39,7 @@ The app suport the new version of (iOS 26+) liquid glass effect for all Buttons,
 # Architecture
 
 Planto follows the MVVM (Model–View–ViewModel) architecture pattern for clean and maintainable code:
+
 Model:
 PlantReminderList – Defines the data structure for plant reminders.
 
